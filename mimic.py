@@ -19,7 +19,7 @@ You can try adding in line breaks around 70 columns so the output looks
 better.
 """
 
-__author__ = "???"
+__author__ = "Gabrielle Morrow"
 
 import random
 import sys
@@ -43,11 +43,22 @@ def create_mimic_dict(filename):
                 "who" : ["knows"]
             }
     """
-    # +++your code here+++
-    pass
+    d = {}
+    with open(filename) as f:
+      text = f.read()
+      words = text.split()
+    previous_word = ''  
+    for word in words:
+      if previous_word not in d:
+        d[previous_word] = [word]
+      else:
+          d[previous_word].append(word)
+      previous_word = word
+    return d  
 
 
-def print_mimic(mimic_dict, start_word):
+
+def print_mimic(d, start_word):
     """Given a previously created mimic_dict and start_word,
     prints 200 random words from mimic_dict as follows:
         - Print the start_word
@@ -55,8 +66,34 @@ def print_mimic(mimic_dict, start_word):
         - Randomly select a new word from the next-list
         - Repeat this process 200 times
     """
-    # +++your code here+++
-    pass
+# mimic_text = []
+# d = {}
+# word = ''
+# while len(mimic_text) < 200:
+#     if word in d:
+#       next_word = random.choice(d[word])
+#       mimic_text.append(next_word)
+#       word = next_word
+#     else:
+#      word = ''
+# print (' '.join(mimic_text))
+    for _ in range(200):
+        print(start_word, end=' ')
+        nexts = d.get(start_word)
+        if not nexts:
+            nexts = d['']
+        start_word = random.choice(nexts)    
+
+        # try: 
+        #     nexts = d[start_word]
+        # except KeyError:
+        #     nexts = d['']    
+        # # start_word = d.get(start_word)
+        # # if not nexts:
+        #     # nexts = d['']
+        # start_word = random.choice(nexts) 
+        
+
 
 
 # Provided main(), calls mimic_dict() and print_mimic()
